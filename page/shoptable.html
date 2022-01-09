@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+
+                            <button type="button" class="layui-btn layui-btn-primary layui-border-blue"
+                                    id="data-fresh-btn"><i class="layui-icon layui-icon-refresh-1"></i> 刷 新
+                            </button>
+                        </div>
+                        <div class="layui-inline">
+                            <span class="layui-badge-rim">Error</span>
+                            <div class="layui-input-inline">
+                                <p>由于数据接口的原因，表格管理无法实现（localstroage）！</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="Tonetoolbar">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除</button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="ToneTableId" lay-filter="ToneTableFilter"></table>
+
+    </div>
+</div>
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        table.render({
+            elem: '#ToneTableId',
+            url: 'http://127.0.0.1:8080/twei/getTone',
+            method: "POST",
+            // contentType:"contentType: 'application/json'",
+            toolbar: '#Tonetoolbar',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'layui-table-tip',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'shopname', title: '商品名称', sort: true},
+                {field: 'shopdetail', event: 'eg', minWidth: 300, style: 'cursor: pointer;', title: '商品详情', sort: true},
+                {field: 'shopprice', event: 'optiona', minWidth: 50, style: 'cursor: pointer;', title: '商品价格'},
+            ]],
+            limits: [5, 10, 15, 20],
+            limit: 5,
+            page: true,
+            skin: 'line'
+        });
+
+        // 刷新的按钮实现
+        $("#data-fresh-btn").click(function () {
+            table.reload('ToneTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    one: ""
+                }
+            })
+            $("#freshid").val("");
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(ToneTableFilter)', function (obj) {
+            if (obj.event === 'layui-table-tip') {
+                layer.alert('注意！注意！数据很重要，删除需谨慎！', {
+                    skin: 'layui-layer-lan'
+                    , closeBtn: 0
+                    , anim: 4 //动画类型
+                });
+            }
+        });
+
+        //监听表格复选框选择，只是显示可不用
+        // table.on('checkbox(ToneTableFilter)', function (obj) {
+        //     console.log(obj)
+        // });
+
+
+    });
+</script>
+
+</body>
+</html>

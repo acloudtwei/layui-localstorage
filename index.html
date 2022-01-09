@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>二次元手办售卖登录页</title>
+    <link href="static/css/bootstrap.min-3.4.0.css" rel="stylesheet">
+    <link href="static/css/font-awesome-4.3.0.css" rel="stylesheet">
+    <link href="static/css/animate.css" rel="stylesheet">
+    <link href="static/css/style-2.2.0.css" rel="stylesheet">
+    <link href="static/css/index.css" rel="stylesheet">
+    <link rel="shortcut icon"
+          href="https://cdn.jsdelivr.net/gh/Fuukei/Public_Repository@latest/vision/basic/favicon.ico">
+    <link rel="stylesheet" href="lib/layui-v2.6.3/css/layui.css" media="all">
+    <script src="static/js/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/mouse.css">
+    <script src="http://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+</head>
+
+<body class="gray-bg">
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div class="form-signin">
+        <div id="stage">
+            <div id="inner">
+                <div id="cover">
+                    <div id="text">
+                        <span style="color: cyan;">T</span><span style="color: white;">wei</span>
+                    </div>
+                    <div id="detail"></div>
+                    <div id="handle"></div>
+                </div>
+                <canvas class="mb-4" id="live2d" width="800" height="800"></canvas>
+            </div>
+            <a id="info" href="javascript:info()"><i class="fa fa-lg fa-info"></i></a>
+            <a id="refresh" href="javascript:refresh()"><i class="fa fa-lg fa-refresh"></i></a>
+        </div>
+        <h3>欢迎来到二次元手办售卖商城</h3>
+
+        <div class="form-group">
+            <input id="username" name="username" type="text" class="form-control"
+                   placeholder="用户名" value="" required="">
+        </div>
+        <div class="form-group">
+            <input id="password" name="password" type="password" class="form-control" placeholder="密码" required="">
+        </div>
+
+        <button type="submit" class="btn btn-primary block full-width m-b" id="login">登 录</button>
+        <script>
+            $(document).keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $('#login').triggerHandler('click');
+                }
+            });
+        </script>
+        <div class="form-group">
+            <div class="checkbox i-checks">
+                <span class="text-muted text-center"><a href="register.html">注册一个新账号</a>
+                        </span>
+            </div>
+        </div>
+        <img src="static/picture/1.gif" style="width: 100%;">
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="static/js/bootstrap.min-3.4.0.js"></script>
+<script src="lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer;
+
+        function judgeuser(username) {
+            let resultdata = null;
+            $.each(JSON.parse(JSON.stringify(layui.data("twei").user)), function (index, item) {
+                if (username === item.username) {
+                    resultdata = {psw: item.password, auth: item.authority};
+                }
+            });
+            return resultdata;
+        }
+
+        // JSON.parse(JSON.stringify(layui.data("twei").user)).splice(2, 1);
+
+        //
+        // let jsonDatas = JSON.parse(JSON.stringify(layui.data("twei").user));
+        // jsonDatas.push({username: 'admin', password: "123456", authority: 1});
+
+
+        $("#login").click(function () {
+            let username = $("#username").val();
+            let password = $("#password").val();
+            if (username === "" || username == null) {
+                layer.msg("请输入用户名", {icon: 2, time: 800});
+            } else if (password === "" || password == null) {
+                layer.msg("请输入密码", {icon: 2, time: 800});
+            } else {
+                let userdata = judgeuser(username);
+                if (userdata != null) {
+                    if (userdata.psw === md5(password)) {
+                        layer.msg("登录成功", {icon: 1, time: 800}, function () {
+                            window.location.assign("./main.html?username=" + username);
+                        });
+                    } else {
+                        layer.msg("密码错误", {icon: 2, time: 800});
+                    }
+
+                } else {
+                    layer.msg("用户不存在，请注册", {icon: 2, time: 800});
+                }
+            }
+        });
+    });
+
+    function stop() {
+        return false;
+    }
+
+    document.oncontextmenu = stop;
+</script>
+<script src="static/js/live2d.min.js"></script>
+<script src="static/js/index.js"></script>
+</body>
+
+</html>

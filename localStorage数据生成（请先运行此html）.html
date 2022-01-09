@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>localStorage数据生成</title>
+
+</head>
+<body>
+<script src="lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="http://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script type="text/javascript">
+
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+        layui.data('twei', {
+            key: 'user', value: [
+                {username: 'weiwei', password: md5("123456"), qq: "1840595929", authority: 1}
+            ]
+        });
+
+        let time = new Date();
+        var date = time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate() + ' ' + time.getHours()
+            + ':' + time.getMinutes() + ':' + time.getSeconds();
+
+        layui.data('twei', {
+            key: 'shop', value: [
+                {
+                    shopname: "二次元1",
+                    shopdetail: "不贵便宜哦",
+                    shopurl: "http://imgtu.aiyunkj.com/2022/01/05/97e7063e679f9.jpg",
+                    shopprice: "￥200"
+                },
+                {
+                    shopname: "二次元2",
+                    shopdetail: "好看",
+                    shopurl: "http://imgtu.aiyunkj.com/2022/01/05/0d1942ef232c8.jpg",
+                    shopprice: "￥100"
+                },
+                {
+                    shopname: "二次元3",
+                    shopdetail: "还行吧",
+                    shopurl: "http://imgtu.aiyunkj.com/2022/01/05/ff104c48c0829.jpg",
+                    shopprice: "￥270"
+                },
+                {
+                    shopname: "二次元4",
+                    shopdetail: "一般般",
+                    shopurl: "http://imgtu.aiyunkj.com/2022/01/05/56888226c7e58.jpg",
+                    shopprice: "￥70"
+                },
+                {
+                    shopname: "二次元5",
+                    shopdetail: "其实也还不错",
+                    shopurl: "http://imgtu.aiyunkj.com/2022/01/05/8fa3b4a2a2cd4.jpg",
+                    shopprice: "￥250"
+                },
+                {
+                    shopname: "二次元6",
+                    shopdetail: "我觉得可以",
+                    shopurl: "http://imgtu.aiyunkj.com/2022/01/05/891303dd0707a.jpg",
+                    shopprice: "￥60"
+                },
+                {
+                    shopname: "二次元7",
+                    shopdetail: "屋里乖",
+                    shopurl: "http://imgtu.aiyunkj.com/2022/01/05/8425d6a0b6d12.jpg",
+                    shopprice: "￥50"
+                },
+
+            ]
+        });
+
+        layui.data('twei', {
+            key: 'web', value:
+                {
+                    webname: "Twei的web前端大作业", webdomain: "www.blibli.tk", webauthor: "Acloudtwei", webnotice: "我爱你中国！",
+                    webcopyright: "© 2022 Acloudtwei license"
+                }
+        });
+
+
+        layer.msg("数据生成成功！", {icon: 1}, function () {
+            window.close();
+        });
+    });
+
+</script>
+</body>
+</html>

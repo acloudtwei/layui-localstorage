@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" id="username" lay-verify="required|text" lay-reqtext="用户名是唯一的！"
+                   placeholder="请输入唯一的用户名"
+                   value=""
+                   class="layui-input">
+            <tip>用户名是唯一的！</tip>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" lay-verify="required|text" lay-reqtext="密码很重要!" placeholder="请输入的密码"
+                   value=""
+                   class="layui-input">
+            <tip>密码MD5加密!</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="authority" lay-skin="switch" lay-text="超级|普通" checked=""
+                   lay-filter="authority">
+            <!--            <tip>权限很重要！</tip>-->
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label required">QQ</label>
+        <div class="layui-input-block">
+            <input type="text" name="remarks" lay-verify="required|text" lay-reqtext="请输入QQ号!" placeholder="QQ号码"
+                   value=""
+                   class="layui-input">
+            <tip>备注并不是必须填写的</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        // let usersetting = JSON.parse(JSON.stringify(layui.data("twei").user));
+
+        function adddata(str) {
+            let jsonData = JSON.parse(JSON.stringify(layui.data("twei").user));
+            jsonData.push(str);
+            layui.data('twei', {
+                key: 'user',
+                value: jsonData
+            });
+            return jsonData;
+        }
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            data.field.authority === "on" ? (data.field.authority = 1) : (data.field.authority = 0);
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息',
+                icon: 1
+            }, function (index) {
+                data.field.password = md5(data.field.password);
+                adddata(data.field);
+                layer.msg("添加成功！", {icon: 1, time: 800}, function () {
+                    location.reload();
+                    layer.close(index);
+                });
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

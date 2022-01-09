@@ -1,0 +1,69 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/welcome-1.html"
+  },
+  "logoInfo": {
+    "title": "",
+    "image": "images/xiao.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "系统管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "首页",
+          "href": "page/welcome-1.html",
+          "icon": "fa fa-tachometer",
+          "target": "_self"
+        },
+        {
+          "title": "系统设置",
+          "href": "page/setting.html",
+          "icon": "fa fa-gears",
+          "target": "_self"
+        },
+        {
+          "title": "添加用户",
+          "href": "page/table/adduser.html",
+          "icon": "fa fa-edit",
+          "target": "_self"
+        },
+        {
+          "title": "添加商品",
+          "href": "page/table/addshop.html",
+          "icon": "fa fa-edit",
+          "target": "_self"
+        },
+        {
+          "title": "文件上传",
+          "href": "page/upload.html",
+          "icon": "fa fa-arrow-up",
+          "target": "_self"
+        },
+        {
+          "title": "富文本编辑器",
+          "href": "page/editor.html",
+          "icon": "fa fa-edit",
+          "target": "_self"
+        },
+        {
+          "title": "用户管理",
+          "icon": "fa fa-lemon-o",
+          "href": "page/usertable.html",
+          "target": "_self"
+        },
+        {
+          "title": "商品管理",
+          "href": "page/shoptable.html",
+          "icon": "fa fa-edit",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}

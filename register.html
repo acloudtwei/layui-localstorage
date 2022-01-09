@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>二次元手办售卖注册页</title>
+    <link href="static/css/bootstrap.min-3.4.0.css" rel="stylesheet">
+    <link href="static/css/font-awesome-4.3.0.css" rel="stylesheet">
+    <link href="static/css/custom.css" rel="stylesheet">
+    <link href="static/css/animate.css" rel="stylesheet">
+    <link href="static/css/style-2.2.0.css" rel="stylesheet">
+    <link href="static/css/index.css" rel="stylesheet">
+    <link rel="shortcut icon"
+          href="https://cdn.jsdelivr.net/gh/Fuukei/Public_Repository@latest/vision/basic/favicon.ico">
+    <link rel="stylesheet" href="lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="./css/mouse.css">
+    <script src="static/js/jquery-2.1.1.min.js"></script>
+    <script src="http://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+</head>
+
+<body class="gray-bg">
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div class="form-signin">
+        <div id="stage">
+            <div id="inner">
+                <div id="cover">
+                    <div id="text">
+                        <span style="color: cyan;">T</span><span style="color: white;">wei</span>
+                    </div>
+                    <div id="detail"></div>
+                    <div id="handle"></div>
+                </div>
+                <canvas class="mb-4" id="live2d" width="800" height="800"></canvas>
+            </div>
+            <a id="info" href="javascript:info()"><i class="fa fa-lg fa-info"></i></a>
+            <a id="refresh" href="javascript:refresh()"><i class="fa fa-lg fa-refresh"></i></a>
+        </div>
+        <h3>Twei欢迎你</h3>
+        <p>创建一个新账户吧</p>
+
+        <div class="form-group">
+            <input id="username" name="username" type="text" class="form-control" placeholder="请自定义输入账号" required="">
+        </div>
+        <div class="form-group">
+            <input id="password" name="password" type="password" class="form-control" placeholder="请输入密码" required="">
+        </div>
+        <div class="form-group">
+            <input id="confirm" name="confirm" type="password" class="form-control" placeholder="请再次输入密码"
+                   required="">
+        </div>
+        <div class="form-group">
+            <input id="qq" name="qq" type="text" class="form-control" placeholder="输入QQ号（主要是用于头像显示）" required="">
+        </div>
+
+        <button type="button" class="btn btn-primary block full-width m-b" id="register">注 册</button>
+        <script>
+            $(document).keydown(function (event) {
+                if (event.keyCode === 13) {
+                    $('#register').triggerHandler('click');
+                }
+            });
+        </script>
+
+        <p class="text-muted text-center"><small>已经有账户了？</small><a href="index.html">点此登录</a>
+        </p>
+        <img src="static/picture/1.gif" style="width: 100%;">
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script src="static/js/bootstrap.min-3.4.0.js"></script>
+<!-- iCheck -->
+<script src="static/js/icheck.min.js"></script>
+<!-- Jquery Validate -->
+<script src="static/js/jquery.validate.min.js"></script>
+<script src="lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+
+
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer;
+
+        function adddata(table, str) {
+            let jsonData = JSON.parse(JSON.stringify(layui.data(table).user));
+            jsonData.push(str);
+            layui.data('twei', {
+                key: 'user',
+                value: jsonData
+            });
+            return jsonData;
+        }
+
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        $("#register").click(function () {
+            let username = $("#username").val();
+            let password = $("#password").val();
+            let confirms = $("#confirm").val();
+            let qq = $("#qq").val();
+            if (username === "" || username == null) {
+                layer.msg("请输入账号", {icon: 2, time: 800});
+            } else if (password === "" || password == null) {
+                layer.msg("请输入密码", {icon: 2, time: 800});
+            } else if (password !== confirms) {
+                layer.msg("两次输入的密码不正常", {icon: 2, time: 800}, function () {
+                    $("#password").val("");
+                    $("#confirm").val("");
+                });
+            } else if (qq === "" || qq == null) {
+                layer.msg("请输入QQ号", {icon: 2, time: 800});
+            } else {
+                let judgedata = adddata("twei", {username: username, password: md5(password), qq: qq, authority: 0})
+                if (judgedata[judgedata.length - 1].username === username) {
+                    layer.msg("注册成功", {icon: 1, time: 800}, function () {
+                        window.location.href = 'index.html';
+                    });
+                } else {
+                    layer.msg("注册失败，请重新注册！", {icon: 2, time: 800});
+                }
+            }
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    function stop() {
+        return false;
+    }
+
+    document.oncontextmenu = stop;
+</script>
+<script src="static/js/live2d.min.js"></script>
+<script src="static/js/index.js"></script>
+</body>
+
+</html>
